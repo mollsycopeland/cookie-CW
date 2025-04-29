@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cookie Greeting</title>
+  <style>
+    /* Light CSS styling to make it look a bit nicer */
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    #greeting { font-size: 1.5em; margin-bottom: 20px; }
+    #nameForm { margin-top: 20px; }
+    input[name="username"] { padding: 5px; font-size: 1em; }
+    button { padding: 5px 10px; font-size: 1em; }
+  </style>
+</head>
+<body>
+  <div id="greeting">Welcome!</div>
+  
+  <div id="nameForm">
+    <p>Please enter your name:</p>
+    <input type="text" id="nameInput" name="username" placeholder="Your name" />
+    <button id="saveName">Save Name</button>
+  </div>
+
+
+  <script>
+function getCookie(name) {
+  // Split the cookie string by ';' into individual "name=value" parts
+  const parts = document.cookie.split(';');
+  for (let part of parts) {
+    let [cookieName, cookieValue] = part.split('=');
+    cookieName = cookieName.trim();
+    if (cookieName === name) {
+      return decodeURIComponent(cookieValue);
+    }
+  }
+  return null;
+}
+
+// check f a username cookie already exsists
+const savedname = getcookie('username');
+const greetingdiv = document.getelementbyid('greeting');
+const formdiv = document.getElementById('nameform');
+
+if (savedname) {
+  // if cookie is found, greet the user and hide the form
+  greetingdiv.textcontent= "welcome back, " + savedname + "!";
+  formdiv.style.display = 'none';
+}
+
+// when the savename button is clicked set the cookie anupdate the greeting
+document.getElementById('savename').addEventListener('click', () =>{
+  const namevalue = document.getElementById('nameinput').value;
+  if (namevalue) {
+    // set cookie "username=<name>" that lasts 30 days and is avaliable site-wise
+      const expirationdate = new Date ();
+      expirationdate.settime(expirationdate.gettime() + 30*24*60*60*1000) // 30 days from now
+      document.cookie = "username=" + encodeURIComponent(namevalue) +
+      "; expires=" + expirationdate.toUTCString()+ "; path+/";
+      //update the greeting
+      greetingdiv.textcontent = "hello, " + namevalue + "! nice to meet you!";
+      formdiv.style.display = 'none'; // hide the form aer you have their name and save it
+  }
+});
+
+  </script>
+
+</body>
+</html>

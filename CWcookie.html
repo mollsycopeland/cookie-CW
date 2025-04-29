@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pick a Color</title>
+  <style>
+    body { text-align: center; margin-top: 50px; transition: 0.5s; }
+  </style>
+</head>
+<body>
+
+<h2>Pick a background color:</h2>
+<input type="color" id="colorPicker">
+<button id="saveColor">Save</button>
+
+<script>
+function getCookie(name) {
+  return document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1];
+}
+
+const savedColor = getCookie('favColor');
+if (savedColor) document.body.style.background = savedColor;
+
+document.getElementById('saveColor').onclick = () => {
+  const color = document.getElementById('colorPicker').value;
+  document.cookie = `favColor=${color}; path=/; max-age=${60*60*24*365}`;
+  document.body.style.background = color;
+};
+</script>
+
+</body>
+</html>
